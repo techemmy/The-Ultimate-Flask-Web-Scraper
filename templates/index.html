@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block body%}
+  <!-- ======= Navbar ======= -->
+  <div class="collapse navbar-collapse custom-navmenu" id="main-navbar">
+    <div class="container py-2 py-md-5">
+      <div class="row align-items-start">
+        <div class="col-md-12 d-none d-md-block  mr-auto">
+          <div class="tweet d-flex">
+            <span class="bi bi-tools text-white mt-2 mr-5"></span>
+            <div>
+              <h3>The Ultimate Web Scraper</h3>
+              <p>This site scrapes three top sites including Google, Imdb and Exchange rates prices.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <nav class="navbar navbar-light custom-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="/">The Ultimate Web Scraper</a>
+      <a href="#" class="burger" data-bs-toggle="collapse" data-bs-target="#main-navbar">
+        <span></span>
+      </a>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- ======= Works Section ======= -->
+    <section class="section site-portfolio">
+      <div class="container">
+        <div class="row mb-5 align-items-center">
+          <div class="col-md-12 col-lg-6 mb-4 mb-lg-0" data-aos="fade-up">
+            <h2>Let the scraping start...</h2>
+            <!-- <p class="mb-0">Freelance Creative &amp; Professional Graphics Designer</p> -->
+          </div>
+          <div class="col-md-12 col-lg-6 text-start text-lg-end" data-aos="fade-up" data-aos-delay="100">
+            <div id="filters" class="filters">
+              <a href="#" data-filter=".google">Google</a>
+              <a href="#" data-filter=".imdb">Imdb</a>
+              <a href="#" data-filter=".exchange-rates">Exchange Currency Rates</a>
+            </div>
+            <div>
+              {% include "search-navbar.html" %}
+            </div>
+          </div>
+        </div>
+        <div id="scraping-info">READY TO SCRAPE (See results here)</div>
+
+        <div id="portfolio-grid" class="row no-gutter" data-aos="fade-up" data-aos-delay="200">
+          <div class="item google col-sm-12">
+            <h3>Google</h3>
+            <div class="row row-cols-1 row-cols-md-3 g-4 mt-5" data-info="google" id="google">
+
+            </div>
+          </div>
+          <div class="item imdb col-sm-12">
+            <h3>Imdb (TOP RATED MOVIES)</h3>
+              <div class="row row-cols-1 row-cols-md-3 g-4 mt-5" data-info="imdb" id="imdb">
+                <!-- CONTENT FOR GOGGLE SCRAPED DATA HERE -->
+
+                <!-- <div class="col">
+                  <div class="card h-100">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                    <div class="card-footer">
+                      <small class="text-muted">Last updated 3 mins ago</small>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+          </div>
+          <div class="item exchange-rates col-sm-12">
+            <h3>Currency Exchange Rates Data</h3>
+            <div class="scraped mt-5 scraped-exchange-rates mt-5" data-info="exchange-rates" id="exchange-rates">
+              <h3>Choose</h3>
+              <div class="row g-3">
+                <form class="d-flex flex-wrap">
+                  <div class="col m-2">
+                    <select class="form-select" aria-label="Default select example" id="convert-from">
+                      {% for symbol in context['exchange-rates-data'] %}
+                      <option {% if loop.index == 1 %}selected{% endif %} value="{{ symbol.code }}">{{ symbol.description }} ({{ symbol.code }})</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="col m-2">
+                    <select class="form-select" aria-label="Default select example" id="convert-to">
+                      {% for symbol in context['exchange-rates-data'] %}
+                      <option {% if loop.index == 1 %}selected{% endif %} value="{{ symbol.code }}">{{ symbol.description }} ({{ symbol.code }})</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <button type="button" class="btn btn-outline-secondary" id="search-exchange">Search</button>
+                </form>
+              </div>
+              <div class="input-group mt-3">
+                <span class="input-group-text" id="exchange-info-addon">Output</span>
+                <input type="text" class="form-control" id="exchange-info" aria-label="Output" aria-describedby="exchange-info-addon">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section><!-- End  Works Section -->
+
+    <!-- ======= Clients Section ======= -->
+    <!-- <section class="section">
+      <div class="container">
+        <div class="row justify-content-center text-center mb-4">
+          <div class="col-5">
+            <h3 class="h3 heading">My Scrapers</h3>
+            <p>For now, this projects scrapes three platforms only.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4 col-sm-4 col-md-2">
+            <a href="#" class="client-logo"><img src="{{ url_for('static', filename='assets/img/logo-netflix.png') }}" alt="Image" class="img-fluid"></a>
+          </div>
+          <div class="col-4 col-sm-4 col-md-2">
+            <a href="#" class="client-logo"><img src="{{ url_for('static', filename='assets/img/logo-google.png') }}" alt="Image" class="img-fluid"></a>
+          </div>
+
+        </div>
+      </div>
+    </section> -->
+    <!-- End Clients Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <p class="mb-1">&copy; Copyright The Ultimate Web Scraper. All Rights Reserved</p>
+          <div class="credits">
+            <!--
+            All the links in the footer should remain intact.
+            You can delete the links only if you purchased the pro version.
+            Licensing information: https://bootstrapmade.com/license/
+            Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=MyPortfolio
+          -->
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+          </div>
+        </div>
+        <div class="col-sm-6 social text-md-end">
+          <a href="#"><span class="bi bi-twitter"></span></a>
+          <a href="#"><span class="bi bi-facebook"></span></a>
+          <a href="#"><span class="bi bi-instagram"></span></a>
+          <a href="#"><span class="bi bi-linkedin"></span></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+{% endblock %}
