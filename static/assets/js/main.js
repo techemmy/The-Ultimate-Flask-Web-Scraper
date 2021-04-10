@@ -190,7 +190,6 @@
   }
 
   function getPostScraped(url, search_word){
-    console.log("URL: ", url)
     scraping_info.innerHTML = "SCRAPING DATA... PLEASE WAIT.";
     // Possible URLS: google, imdb, exchange-rates
     $.ajax({
@@ -200,7 +199,6 @@
       type: 'POST',
       success: function(response){
         scraping_info.innerHTML = "FORMATTING DATA...";
-        console.log(response);
         setUpScrapedDataSpace();
 
         if (url === "google"){
