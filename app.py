@@ -13,38 +13,27 @@ HEADERS = {
 def googleWordScraper(search_word):
     base_site = "https://www.google.com/search"
 
-    session = HTMLSession()
-    
-    if search_word.strip(' ') == '':
-        return {"posts": [{"link":None, "description":None, "title":None}]}
-    # print("REQUESTING...")
-    req = session.get(base_site, params={'q':search_word}, headers=HEADERS)
-    response = req.html
-    
-    # print("SCRAPING")
-    container = response.find('div.hlcw0c')
-    container = [r for r in container]
+    response = requests.get(base_site, params={"q": search_word}, headers=HEADERS)
 
-    if req.status_code == 429:
-        print(req.headers)
-        print(req.status_code)
-
-    posts_container = []
-    for c in container:
-        post = c.find('.g')
-        posts_container.extend(post)
-    print(posts_container)
+    soup = BeautifulSoup(response.text, "lxml")
     posts = []
-    
-    for post in posts_container:
-        post_json = {
-        "link": post.find('.yuRUbf a')[0].attrs['href'],
-        "title": post.find('h3.LC20lb.DKV0Md')[0].text,
-        "description": post.find('div.IsZvec')[0].text,
-        }
-        posts.append(post_json)
-            
-    session.close()
+
+    all_g = soup.find_all('div', class_='tF2Cxc')
+
+    for g in all_g:
+        info = {}
+        title = g.find('h3', class_='LC20lb DKV0Md')
+        info['title'] = title.string if title else None
+
+        link_container = g.find('div', class_='yuRUbf')
+        if link_container is not None:
+            link = link_container.find('a')
+            info['link'] = link.get('href')
+
+        description = g.find('span', class_='aCOpRe')
+        info['description'] = description.text if description else None
+
+        posts.append(info)
     
     return posts
 
@@ -89,8 +78,7 @@ def imdbTopRatedMovieScraper():
 
 
 def getDefaultSymbols():
-    url = 'https://api.exchangerate.host/symbols'
-    response = requests.get(url)
+    response = requests.get('https://api.exchangerate.host/symbols')
     data = response.json()['symbols']
     return data
 
